@@ -76,7 +76,14 @@ jobs:
           source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
           export FOX_BUILD_DEVICE=algiz
-          lunch twrp_algiz-eng
+          # Android 14 build system needs <product>-<release>-<variant>
+          echo "--- available release configs:"; ls build/release 2>/dev/null | head -20 || true
+          OK=0
+          for REL in ap2a ap1a ap3a trunk_staging; do
+            echo ">>> trying lunch twrp_algiz-${REL}-eng"
+            if lunch twrp_algiz-${REL}-eng; then OK=1; break; fi
+          done
+          [ "$OK" = "1" ] || { echo "No valid lunch combo found"; exit 1; }
           mka adbd vendorbootimage
 
       - name: Upload Built OrangeFox Artifacts
