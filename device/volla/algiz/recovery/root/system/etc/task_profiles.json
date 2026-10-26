@@ -1,0 +1,12 @@
+{
+  "Profiles": [
+    {
+      "Name": "ServiceCapacityLow",
+      "Actions": []
+    },
+    {
+      "Name": "ProcessCapacityNormal",
+      "Actions": []
+    }
+  ]
+}

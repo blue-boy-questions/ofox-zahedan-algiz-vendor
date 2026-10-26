@@ -1,0 +1,40 @@
+# Volla Phone Quintus (algiz) / Daria Bond I (zahedan) — Kernel 6.6 recovery.fstab
+/system_root         erofs     system                                    flags=logical;slotselect;display="System";backup=1
+/system_root         ext4      system                                    flags=logical;slotselect;display="System"
+/vendor              erofs     vendor                                    flags=logical;slotselect;display="Vendor";backup=1
+/vendor              ext4      vendor                                    flags=logical;slotselect;display="Vendor"
+/product             erofs     product                                   flags=logical;slotselect;display="Product";backup=1
+/product             ext4      product                                   flags=logical;slotselect;display="Product"
+/system_ext          erofs     system_ext                                flags=logical;slotselect;display="System Ext";backup=1
+/system_ext          ext4      system_ext                                flags=logical;slotselect;display="System Ext"
+/vendor_dlkm         erofs     vendor_dlkm                               flags=logical;slotselect;display="Vendor DLKM";backup=1
+/vendor_dlkm         ext4      vendor_dlkm                               flags=logical;slotselect;display="Vendor DLKM"
+/odm_dlkm            erofs     odm_dlkm                                  flags=logical;slotselect;display="ODM DLKM";backup=1
+/odm_dlkm            ext4      odm_dlkm                                  flags=logical;slotselect;display="ODM DLKM"
+/system_dlkm         erofs     system_dlkm                               flags=logical;slotselect;display="System DLKM";backup=1
+/system_dlkm         ext4      system_dlkm                               flags=logical;slotselect;display="System DLKM"
+
+/data                f2fs      /dev/block/by-name/userdata               flags=fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized;metadata_encryption=aes-256-xts:wrappedkey_v0;keydirectory=/metadata/vold/metadata_encryption;checkpoint=fs;quota;reservedsize=128M
+/metadata            ext4      /dev/block/by-name/metadata               flags=display="Metadata";backup=0
+
+/boot                emmc      /dev/block/by-name/boot                   flags=slotselect;display="Boot";backup=1;flashimg=1
+/init_boot           emmc      /dev/block/by-name/init_boot              flags=slotselect;display="Init Boot";backup=1;flashimg=1
+/vendor_boot         emmc      /dev/block/by-name/vendor_boot            flags=slotselect;display="Vendor Boot";backup=1;flashimg=1
+/dtbo                emmc      /dev/block/by-name/dtbo                   flags=slotselect;display="DTBO";backup=1;flashimg=1
+/vbmeta              emmc      /dev/block/by-name/vbmeta                 flags=slotselect;display="VBMeta";backup=1;flashimg=1
+/vbmeta_system       emmc      /dev/block/by-name/vbmeta_system          flags=slotselect;display="VBMeta System";backup=1;flashimg=1
+/vbmeta_vendor       emmc      /dev/block/by-name/vbmeta_vendor          flags=slotselect;display="VBMeta Vendor";backup=1;flashimg=1
+
+/modem               emmc      /dev/block/by-name/md1img                 flags=slotselect;display="Modem";backup=1;flashimg=1
+/misc                emmc      /dev/block/by-name/misc                   flags=display="Misc";backup=0
+
+/persist             ext4      /dev/block/by-name/persist                flags=display="Persist";backup=1
+/nvdata              ext4      /dev/block/by-name/nvdata                 flags=display="NvData";backup=1
+/nvcfg               ext4      /dev/block/by-name/nvcfg                  flags=display="NvCfg";backup=1
+/protect_f           ext4      /dev/block/by-name/protect1               flags=display="Protect F";backup=1
+/protect_s           ext4      /dev/block/by-name/protect2               flags=display="Protect S";backup=1
+/nvram               emmc      /dev/block/by-name/nvram                  flags=display="NvRam";backup=1;flashimg=1
+/proinfo             emmc      /dev/block/by-name/proinfo                flags=display="ProInfo";backup=1;flashimg=1
+
+/external_sd         auto      /dev/block/mmcblk1p1  /dev/block/mmcblk1  flags=display="MicroSD";storage;wipeingui;removable
+/usb_otg             auto      /dev/block/sda1       /dev/block/sda      flags=display="USB OTG";storage;wipeingui;removable
