@@ -62,6 +62,11 @@ BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
+
+# No kernel is built; the stock GKI kernel stays in boot. Stops vendor/twrp kernel.mk
+# from requiring a kernel source tree / image name.
+TARGET_NO_KERNEL := true
+BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
 BOARD_RAMDISK_USE_GZIP := true
 
