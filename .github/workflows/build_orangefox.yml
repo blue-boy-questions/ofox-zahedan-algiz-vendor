@@ -95,6 +95,7 @@ jobs:
           done
           [ "$OK" = "1" ] || { echo "No valid lunch combo found"; exit 1; }
           free -h; df -h ~ | tail -1
+          sed -n 95,125p vendor/twrp/build/tasks/kernel.mk || true
           mka -j3 adbd vendorbootimage
 
       - name: Upload Built OrangeFox Artifacts
