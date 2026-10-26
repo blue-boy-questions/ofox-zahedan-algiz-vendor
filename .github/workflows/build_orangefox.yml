@@ -38,6 +38,14 @@ jobs:
           git config --global user.name "OrangeFox Builder"
           git config --global user.email "builder@orangefox.tech"
 
+      - name: Install repo tool
+        run: |
+          mkdir -p ~/bin
+          curl -s https://storage.googleapis.com/git-repo-downloads/repo -o ~/bin/repo
+          chmod a+x ~/bin/repo
+          echo "$HOME/bin" >> $GITHUB_PATH
+          ~/bin/repo --version || true
+
       - name: Sync OrangeFox Minimal Manifest (${{ github.event.inputs.manifest_branch }})
         run: |
           mkdir -p ~/OrangeFox_sync ~/fox_${{ github.event.inputs.manifest_branch }}
