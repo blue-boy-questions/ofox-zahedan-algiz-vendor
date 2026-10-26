@@ -61,7 +61,12 @@ jobs:
           if [ -f "tree_repo/stock_vendor_boot.img" ]; then
             python3 tree_repo/setup_device_tree_from_zero.py --stock tree_repo/stock_vendor_boot.img --tree ~/fox_${{ github.event.inputs.manifest_branch }}/device/volla/algiz
           elif [ -n "${{ github.event.inputs.stock_vendor_boot_url }}" ]; then
-            gdown --fuzzy "${{ github.event.inputs.stock_vendor_boot_url }}" -O /tmp/stock_vendor_boot.img
+            URL="${{ github.event.inputs.stock_vendor_boot_url }}"
+            if echo "$URL" | grep -q "drive.google.com"; then
+              gdown "$URL" -O /tmp/stock_vendor_boot.img
+            else
+              curl -L --fail "$URL" -o /tmp/stock_vendor_boot.img
+            fi
             python3 tree_repo/setup_device_tree_from_zero.py --stock /tmp/stock_vendor_boot.img --tree ~/fox_${{ github.event.inputs.manifest_branch }}/device/volla/algiz
           fi
 
