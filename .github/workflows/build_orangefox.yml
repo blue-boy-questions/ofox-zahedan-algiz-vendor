@@ -15,12 +15,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    timeout-minutes: 350
     steps:
       - name: Maximize Build Space (Free ~90GB)
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
           df -h
+
+      - name: Add swap (avoid OOM kills during Soong)
+        run: |
+          sudo swapoff -a || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
 
       - name: Checkout Repository (Device Tree & Scripts)
         uses: actions/checkout@v4
@@ -84,7 +94,8 @@ jobs:
             if lunch twrp_algiz-${REL}-eng; then OK=1; break; fi
           done
           [ "$OK" = "1" ] || { echo "No valid lunch combo found"; exit 1; }
-          mka adbd vendorbootimage
+          free -h; df -h ~ | tail -1
+          mka -j3 adbd vendorbootimage
 
       - name: Upload Built OrangeFox Artifacts
         uses: actions/upload-artifact@v4
